@@ -1,0 +1,36 @@
+---
+title: "stressPLS methodology"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{stressPLS methodology}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(collapse = TRUE, comment = "#>")
+```
+
+## Overview
+
+`stressPLS` is designed to evaluate whether formative higher-order construct
+results in PLS-SEM remain stable under reasonable perturbations.
+
+The framework separates five responsibilities:
+
+1. Model specification.
+2. Perturbation generation.
+3. Model estimation.
+4. Robustness scoring.
+5. Reporting and visualization.
+
+This initial scaffold implements the package structure, input validation,
+perturbation grids, S3 result classes, summaries, plotting, and reporting
+placeholders. It does not implement the full methodology or a PLS-SEM backend.
+
+## Perturbation families
+
+The planned stress-test families include indicator deletion, indicator swapping,
+construct reweighting, bootstrap sensitivity, and alternative higher-order
+construct specifications. Current functions generate explicit scenario grids
+that backends can consume later.

@@ -1,0 +1,23 @@
+url: https://stresspls.github.io/stressPLS/
+template:
+  bootstrap: 5
+reference:
+  - title: Stress-test workflow
+    contents:
+      - stress_pls
+      - summarise_stress
+      - rank_fragility
+      - plot_stress
+      - sensitivity_report
+  - title: Perturbation grids
+    contents:
+      - stress_specifications
+      - stress_indicators
+      - stress_weights
+      - stress_bootstrap
+articles:
+  - title: Articles
+    navbar: ~
+    contents:
+      - methodology
+      - simulated-data

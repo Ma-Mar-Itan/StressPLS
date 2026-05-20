@@ -1,0 +1,48 @@
+---
+title: "Simulated data example"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Simulated data example}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(collapse = TRUE, comment = "#>")
+```
+
+## Simulate data
+
+```{r}
+library(stressPLS)
+
+set.seed(42)
+dat <- data.frame(
+  quality_1 = rnorm(50),
+  quality_2 = rnorm(50),
+  quality_3 = rnorm(50),
+  satisfaction = rnorm(50)
+)
+
+model <- list(
+  indicators = c("quality_1", "quality_2", "quality_3"),
+  paths = list(satisfaction = "quality")
+)
+```
+
+## Generate stress scenarios
+
+```{r}
+indicator_grid <- stress_indicators(dat, model)
+indicator_grid
+```
+
+## Create a result scaffold
+
+```{r}
+result <- stress_pls(dat, model, grid = indicator_grid, seed = 42)
+summarise_stress(result)
+```
+
+Because no estimation backend is supplied, scenarios are marked
+`not_estimated`. This is intentional for the initial scaffold.

@@ -1,0 +1,29 @@
+Package: stressPLS
+Title: Stress-Test Formative Higher-Order Constructs in PLS-SEM
+Version: 0.0.0.9000
+Authors@R: 
+    person("stressPLS", "contributors", role = c("aut", "cre"),
+           email = "stresspls@example.com")
+Author: stressPLS contributors
+Maintainer: stressPLS contributors <stresspls@example.com>
+Description: Provides an initial framework for generating and reporting
+    stress-test perturbation grids for formative higher-order constructs in
+    partial least squares structural equation models. The package is designed
+    around modular model specifications, perturbation generation, estimation
+    backends, robustness scoring, and reporting.
+License: MIT + file LICENSE
+URL: https://stresspls.github.io/stressPLS/
+BugReports: https://github.com/stresspls/stressPLS/issues
+Encoding: UTF-8
+Roxygen: list(markdown = TRUE)
+Depends:
+    R (>= 4.1)
+Imports:
+    ggplot2
+Suggests:
+    knitr,
+    rmarkdown,
+    testthat (>= 3.0.0)
+Config/testthat/edition: 3
+VignetteBuilder: knitr
+Config/roxygen2/version: 8.0.0

@@ -1,0 +1,13 @@
+^\.github$
+^\.gitignore$
+^AGENTS\.md$
+^README\.Rmd$
+^pkgdown$
+^stressPLS\.Rproj$
+^\.r-lib$
+^\.\.Rcheck$
+^stressPLS\.Rcheck$
+^docs$
+^\.cache$
+^.*\.tar\.gz$
+^README\.html$

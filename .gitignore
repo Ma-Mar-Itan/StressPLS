@@ -1,0 +1,12 @@
+.Rproj.user
+.Rhistory
+.RData
+.Ruserdata
+*.Rcheck/
+..Rcheck/
+.r-lib/
+.cache/
+docs/
+stressPLS.Rcheck/
+*.tar.gz
+README.html
