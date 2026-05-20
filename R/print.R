@@ -97,3 +97,114 @@ print.stresspls_perturbation_grid <- function(x, ...) {
   }
   invisible(x)
 }
+
+#' @export
+print.stresspls_backend <- function(x, ...) {
+  cat("<stresspls_backend>\n")
+  cat("Name:", x$name, "\n")
+  if (!is.null(x$description)) {
+    cat("Description:", x$description, "\n")
+  }
+  invisible(x)
+}
+
+#' @export
+print.stresspls_fit <- function(x, ...) {
+  cat("<stresspls_fit>\n")
+  cat("Scenario:", scenario_id_from_fit(x), "\n")
+  cat("Converged:", if (isTRUE(x$diagnostics$converged)) "yes" else "no", "\n")
+  cat("Paths:", nrow(x$paths), "\n")
+  cat("Weights:", nrow(x$weights), "\n")
+  if (length(x$diagnostics$errors) > 0L) {
+    cat("Errors:", paste(x$diagnostics$errors, collapse = "; "), "\n")
+  }
+  invisible(x)
+}
+
+#' @export
+print.stresspls_fit_grid <- function(x, ...) {
+  cat("<stresspls_fit_grid>\n")
+  cat("Scenarios:", length(x$fits), "\n")
+  cat("Backend:", x$backend$name, "\n")
+  cat("Converged:", sum(x$scenario_index$converged), "/", nrow(x$scenario_index), "\n")
+  if (nrow(x$scenario_index) > 0L) {
+    print(utils::head(x$scenario_index), row.names = FALSE)
+  }
+  invisible(x)
+}
+
+#' @export
+print.stresspls_bootstrap <- function(x, ...) {
+  cat("<stresspls_bootstrap>\n")
+  cat("Replications:", nrow(x$index), "\n")
+  cat("Converged:", sum(x$index$converged), "/", nrow(x$index), "\n")
+  invisible(x)
+}
+
+#' @export
+print.stresspls_collinearity_recipe <- function(x, ...) {
+  cat("<stresspls_collinearity_recipe>\n")
+  cat("Indicators:", paste(x$recipe$indicators, collapse = ", "), "\n")
+  cat("Strength:", x$recipe$strength, "\n")
+  invisible(x)
+}
+
+#' @export
+print.stresspls_collinearity_stress <- function(x, ...) {
+  cat("<stresspls_collinearity_stress>\n")
+  cat("Levels:", paste(x$levels, collapse = ", "), "\n")
+  cat("Indicators:", paste(x$indicators, collapse = ", "), "\n")
+  cat("Converged:", sum(x$index$converged), "/", nrow(x$index), "\n")
+  invisible(x)
+}
+
+#' @export
+print.stresspls_prediction_validation <- function(x, ...) {
+  cat("<stresspls_prediction_validation>\n")
+  cat("Folds:", nrow(x$fold_index), "\n")
+  cat("Outcomes:", paste(x$outcomes, collapse = ", "), "\n")
+  if (nrow(x$metrics) > 0L) {
+    print(utils::head(compare_prediction_metrics(x)), row.names = FALSE)
+  }
+  invisible(x)
+}
+
+#' @export
+print.stresspls_heterogeneity <- function(x, ...) {
+  cat("<stresspls_heterogeneity>\n")
+  cat("Group:", x$group, "\n")
+  cat("Subgroups:", paste(x$index$group, collapse = ", "), "\n")
+  cat("Converged:", sum(x$index$converged), "/", nrow(x$index), "\n")
+  invisible(x)
+}
+
+#' @export
+print.stresspls_simulated_data <- function(x, ...) {
+  cat("<stresspls_simulated_data>\n")
+  cat("Rows:", nrow(x$data), "\n")
+  cat("Columns:", ncol(x$data), "\n")
+  invisible(x)
+}
+
+#' @export
+print.stresspls_simulation <- function(x, ...) {
+  cat("<stresspls_simulation>\n")
+  cat("Design rows:", nrow(x$design), "\n")
+  cat("Replications:", nrow(x$results), "\n")
+  invisible(x)
+}
+
+#' @export
+print.stresspls_sensitivity_report <- function(x, ...) {
+  cat("<stresspls_sensitivity_report>\n")
+  sections <- setdiff(names(x), c("warnings", "limitations", "created_at"))
+  present <- sections[vapply(x[sections], Negate(is.null), logical(1))]
+  cat("Sections:", if (length(present) == 0L) "none" else paste(present, collapse = ", "), "\n")
+  if (length(x$warnings) > 0L) {
+    cat("Warnings:", paste(x$warnings, collapse = "; "), "\n")
+  }
+  if (length(x$limitations) > 0L) {
+    cat("Limitations:", paste(x$limitations, collapse = "; "), "\n")
+  }
+  invisible(x)
+}

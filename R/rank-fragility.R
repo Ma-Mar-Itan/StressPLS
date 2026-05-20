@@ -4,7 +4,8 @@
 #' `fragility_score` column. Without that column, it returns an empty ranking
 #' instead of inventing scores.
 #'
-#' @param x A `stresspls_result` or `stresspls_summary` object.
+#' @param x A `stresspls_result`, `stresspls_summary`, or
+#'   `stresspls_fit_grid` object.
 #'
 #' @return A data frame with `scenario_id`, `fragility_score`, and `rank`.
 #' @examples
@@ -14,6 +15,16 @@
 #' rank_fragility(result)
 #' @export
 rank_fragility <- function(x) {
+  if (inherits(x, "stresspls_fit_grid")) {
+    ranked <- calc_indicator_fragility(x)
+    if (nrow(ranked) == 0L) {
+      return(ranked)
+    }
+    ranked <- ranked[order(ranked$fragility_score, decreasing = TRUE), ,
+                     drop = FALSE]
+    ranked$rank <- seq_len(nrow(ranked))
+    return(ranked)
+  }
   if (inherits(x, "stresspls_summary")) {
     x <- x$result
   }

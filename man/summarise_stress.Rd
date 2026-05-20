@@ -7,7 +7,7 @@
 summarise_stress(x)
 }
 \arguments{
-\item{x}{A \code{stresspls_result} object.}
+\item{x}{A \code{stresspls_result} or \code{stresspls_fit_grid} object.}
 }
 \value{
 A \code{stresspls_summary} object.

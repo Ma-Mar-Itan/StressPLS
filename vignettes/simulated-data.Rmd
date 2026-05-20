@@ -11,38 +11,38 @@ vignette: >
 knitr::opts_chunk$set(collapse = TRUE, comment = "#>")
 ```
 
-## Simulate data
+## Simulate data with the package utility
 
 ```{r}
 library(stressPLS)
 
-set.seed(42)
-dat <- data.frame(
-  quality_1 = rnorm(50),
-  quality_2 = rnorm(50),
-  quality_3 = rnorm(50),
-  satisfaction = rnorm(50)
-)
-
-model <- list(
-  indicators = c("quality_1", "quality_2", "quality_3"),
-  paths = list(satisfaction = "quality")
-)
+sim <- simulate_formative_hoc_data(n = 50, indicators_per_construct = 3, seed = 42)
+dat <- sim$data
+model <- sim$model
 ```
 
 ## Generate stress scenarios
 
 ```{r}
-indicator_grid <- stress_indicators(dat, model)
+indicator_grid <- perturb_indicators(model, method = "leave_one_out",
+                                     constructs = c("Image", "Quality"))
 indicator_grid
 ```
 
-## Create a result scaffold
+## Fit with an example-only backend
+
+This toy backend is deterministic and exists only to demonstrate the interface.
+It is not a PLS-SEM estimator.
 
 ```{r}
-result <- stress_pls(dat, model, grid = indicator_grid, seed = 42)
-summarise_stress(result)
-```
+toy_backend <- function(model, data, scenario = NULL, ...) {
+  brand_score <- rowMeans(data[c("img1", "img2", "img3", "qual1", "qual2", "qual3")])
+  sat_score <- rowMeans(data[c("sat1", "sat2", "sat3")])
+  estimate <- unname(coef(lm(sat_score ~ brand_score))[2])
+  list(paths = data.frame(from = "BrandEquity", to = "Satisfaction",
+                          estimate = estimate))
+}
 
-Because no estimation backend is supplied, scenarios are marked
-`not_estimated`. This is intentional for the initial scaffold.
+fit_grid <- fit_perturbation_grid(model, dat, indicator_grid, toy_backend)
+calc_path_stability(fit_grid)
+```

@@ -7,7 +7,8 @@
 rank_fragility(x)
 }
 \arguments{
-\item{x}{A \code{stresspls_result} or \code{stresspls_summary} object.}
+\item{x}{A \code{stresspls_result}, \code{stresspls_summary}, or
+\code{stresspls_fit_grid} object.}
 }
 \value{
 A data frame with \code{scenario_id}, \code{fragility_score}, and \code{rank}.

@@ -14,10 +14,23 @@ reference:
   - title: Stress-test workflow
     contents:
       - stress_pls
+      - as_backend
+      - validate_backend
+      - fit_baseline_model
+      - fit_perturbation_grid
+      - as_stresspls_fit
+      - standardize_backend_output
       - summarise_stress
       - rank_fragility
       - plot_stress
       - sensitivity_report
+  - title: Backend extractors
+    contents:
+      - extract_paths
+      - extract_weights
+      - extract_vifs
+      - extract_r2
+      - extract_prediction_metrics
   - title: Perturbation grids
     contents:
       - perturb_indicators
@@ -31,6 +44,56 @@ reference:
       - stress_indicators
       - stress_weights
       - stress_bootstrap
+  - title: Robustness metrics
+    contents:
+      - calc_sign_consistency
+      - calc_direction_flip_rate
+      - calc_ci_width
+      - calc_scaled_ci_width
+      - calc_stability_index
+      - calc_indicator_fragility
+      - calc_path_stability
+      - calc_weight_stability
+  - title: Diagnostics
+    contents:
+      - bootstrap_stability
+      - summarise_bootstrap_stability
+      - inflate_collinearity
+      - collinearity_stress_test
+      - summarise_collinearity_stress
+      - repeated_cv_predict
+      - compare_prediction_metrics
+      - subgroup_heterogeneity
+      - compare_subgroup_paths
+      - compare_subgroup_weights
+  - title: Simulation
+    contents:
+      - simulate_formative_hoc_data
+      - run_simulation_grid
+      - summarise_simulation_results
+  - title: Tables and plots
+    contents:
+      - make_baseline_table
+      - make_indicator_perturbation_table
+      - make_bootstrap_stability_table
+      - make_collinearity_table
+      - make_prediction_table
+      - make_heterogeneity_table
+      - make_simulation_design_table
+      - make_simulation_results_table
+      - plot_stress_workflow
+      - plot_indicator_stability_heatmap
+      - plot_path_distribution
+      - plot_vif_stress_curve
+      - plot_prediction_comparison
+      - plot_robustness_dashboard
+      - plot_simulation_results
+  - title: Optional adapters
+    contents:
+      - backend_from_seminr
+      - backend_from_csem
+      - backend_from_plspm
+      - backend_from_smartpls_export
 articles:
   - title: Articles
     navbar: ~

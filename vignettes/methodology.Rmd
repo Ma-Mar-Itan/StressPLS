@@ -17,6 +17,11 @@ library(stressPLS)
 `stressPLS` is designed to evaluate whether formative higher-order construct
 results in PLS-SEM remain stable under reasonable perturbations.
 
+The resilience-analysis framing is deliberately conservative: the package asks
+how much a conclusion changes when indicators, specifications, resampling
+choices, collinearity pressure, prediction splits, or observed subgroups change.
+It does not create estimates without an estimator backend.
+
 The framework separates five responsibilities:
 
 1. Model specification.
@@ -86,6 +91,74 @@ When data are supplied to `noise_injection()`, transformed scenario data can be
 materialized; otherwise the grid stores a reproducible noise recipe. These
 perturbation grids are designed to be consumed by later estimation backends,
 which will run each scenario and return robustness metrics.
+
+## Estimator backend abstraction
+
+Backends are functions with signature `function(model, data, scenario = NULL,
+...)`. A backend may wrap a PLS-SEM package, parse an export, or implement a
+researcher-controlled estimator. `stressPLS` standardizes backend output into
+tables for paths, weights, VIFs, R-squared values, prediction metrics,
+diagnostics, and metadata.
+
+The package includes optional adapter skeletons for common workflows, but custom
+backends are currently the safest supported route.
+
+## Robustness metrics
+
+The metric layer compares standardized baseline and scenario fits. It reports
+sign consistency, direction flip rates, confidence interval width, scaled
+interval width, stability indices, path stability, weight stability, and
+indicator fragility. Metrics are computed from backend estimates only.
+
+## Bootstrap stability
+
+`bootstrap_stability()` resamples rows with replacement, fits each sample
+through the backend, and summarizes sign consistency, interval width, stability
+indices, convergence rates, and errors. Small bootstrap counts are useful for
+examples; real studies should use larger `R` values.
+
+## Collinearity stress
+
+`inflate_collinearity()` approximates controlled collinearity pressure by
+blending selected numeric indicators with a shared standardized component.
+`collinearity_stress_test()` fits models across a grid of pressure levels and
+tracks VIFs, path changes, weight changes, and available prediction metrics.
+Exact target correlations are not guaranteed for arbitrary observed data.
+
+## Predictive validation
+
+`repeated_cv_predict()` creates repeated folds and fits through the backend.
+If the backend returns predictions, `stressPLS` computes RMSE and MAE. If the
+backend returns precomputed prediction metrics, those are collected directly.
+
+## Heterogeneity diagnostics
+
+Observed subgroup heterogeneity is handled with `subgroup_heterogeneity()`.
+The function splits data by an observed grouping variable, fits each subgroup,
+and compares path and weight estimates across groups. Latent class segmentation
+is intentionally outside the current scope.
+
+## Simulation design
+
+`simulate_formative_hoc_data()` creates small formative higher-order composite
+data with known parameters. `run_simulation_grid()` repeats simulations across
+design rows and stores bias, RMSE, sign consistency, direction flip rates,
+interval width, stability indices, and convergence/error rates when available.
+
+## Interpretation guidance
+
+Stress results should be interpreted as robustness evidence. Stable signs,
+small perturbation changes, reasonable VIF behavior, and consistent prediction
+metrics strengthen confidence in a conclusion. Large direction flips, strong
+indicator fragility, subgroup instability, or prediction deterioration should
+trigger model review rather than automatic rejection.
+
+## Limitations and future work
+
+The package is experimental. Its core tests use deterministic toy backends for
+API verification, not PLS-SEM estimation. Real research use requires a backend
+that returns scientifically meaningful estimates. Future work can add tested
+adapters for specific PLS-SEM packages and richer report rendering.
 
 ## Perturbation families
 
