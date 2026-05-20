@@ -63,6 +63,30 @@ These objects do not estimate PLS-SEM models. They validate and preserve model
 intent so later estimation backends can consume `stresspls_model_spec` objects
 without needing to infer construct definitions from ad hoc lists.
 
+## Perturbation grid generation
+
+Perturbation grids are explicit scenario tables generated from
+`stresspls_model_spec` objects. The indicator perturbation layer can generate
+leave-one-out deletion, random deletion, combinatorial deletion, replacement,
+and noise-injection scenarios without estimating a model.
+
+```{r}
+indicator_grid <- perturb_indicators(
+  model = model,
+  method = "leave_one_out",
+  constructs = c("Image", "Quality")
+)
+
+indicator_grid
+```
+
+Each scenario records the method, affected construct, removed indicators,
+replacement metadata, noise recipes, validity flags, and a stable scenario ID.
+When data are supplied to `noise_injection()`, transformed scenario data can be
+materialized; otherwise the grid stores a reproducible noise recipe. These
+perturbation grids are designed to be consumed by later estimation backends,
+which will run each scenario and return robustness metrics.
+
 ## Perturbation families
 
 The planned stress-test families include indicator deletion, indicator swapping,

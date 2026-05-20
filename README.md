@@ -88,6 +88,30 @@ required_indicators(model_spec)
 #> [1] "img1"  "img2"  "img3"  "qual1" "qual2" "qual3" "sat1"  "sat2"  "sat3"
 ```
 
+## Perturbation example
+
+``` r
+indicator_grid <- perturb_indicators(
+  model = model_spec,
+  method = "leave_one_out",
+  constructs = c("Image", "Quality")
+)
+
+indicator_grid
+#> <stresspls_perturbation_grid>
+#> Scenarios: 6 
+#> Methods: leave_one_out 
+#> Affected constructs: Image, Quality 
+#> Data materialized: no 
+#>                    scenario_id        method construct valid
+#>     leave_one_out__image__img1 leave_one_out     Image  TRUE
+#>     leave_one_out__image__img2 leave_one_out     Image  TRUE
+#>     leave_one_out__image__img3 leave_one_out     Image  TRUE
+#>  leave_one_out__quality__qual1 leave_one_out   Quality  TRUE
+#>  leave_one_out__quality__qual2 leave_one_out   Quality  TRUE
+#>  leave_one_out__quality__qual3 leave_one_out   Quality  TRUE
+```
+
 ## Concept
 
 Stress testing asks whether substantive conclusions survive reasonable
@@ -96,4 +120,5 @@ bootstrap settings, and related assumptions. `stressPLS` will expose
 those changes as explicit scenario grids, run them through a modular
 backend, and report stability and fragility without fabricating
 estimates when a backend is absent. Future estimation backends will
-consume `stresspls_model_spec` objects.
+consume `stresspls_model_spec` objects and `stresspls_perturbation_grid`
+objects.

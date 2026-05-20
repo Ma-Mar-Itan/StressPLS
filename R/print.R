@@ -71,3 +71,29 @@ print.stresspls_model_spec <- function(x, ...) {
   }
   invisible(x)
 }
+
+#' @export
+print.stresspls_perturbation_grid <- function(x, ...) {
+  cat("<stresspls_perturbation_grid>\n")
+  cat("Scenarios:", nrow(x$scenarios), "\n")
+  cat("Methods:", paste(x$methods, collapse = ", "), "\n")
+  affected <- unique(x$scenarios$construct)
+  affected <- affected[nzchar(affected)]
+  cat("Affected constructs:", if (length(affected) == 0L) {
+    "none"
+  } else {
+    paste(affected, collapse = ", ")
+  }, "\n")
+  materialized <- isTRUE(x$metadata$data_materialized)
+  cat("Data materialized:", if (materialized) "yes" else "no", "\n")
+  if (nrow(x$scenarios) > 0L) {
+    preview <- x$scenarios[, c(
+      "scenario_id",
+      "method",
+      "construct",
+      "valid"
+    ), drop = FALSE]
+    print(utils::head(preview), row.names = FALSE)
+  }
+  invisible(x)
+}

@@ -90,6 +90,18 @@ construct_names(model_spec)
 required_indicators(model_spec)
 ```
 
+## Perturbation example
+
+```{r}
+indicator_grid <- perturb_indicators(
+  model = model_spec,
+  method = "leave_one_out",
+  constructs = c("Image", "Quality")
+)
+
+indicator_grid
+```
+
 ## Concept
 
 Stress testing asks whether substantive conclusions survive reasonable changes
@@ -97,4 +109,5 @@ to indicators, higher-order construct specifications, weights, bootstrap
 settings, and related assumptions. `stressPLS` will expose those changes as
 explicit scenario grids, run them through a modular backend, and report
 stability and fragility without fabricating estimates when a backend is absent.
-Future estimation backends will consume `stresspls_model_spec` objects.
+Future estimation backends will consume `stresspls_model_spec` objects and
+`stresspls_perturbation_grid` objects.

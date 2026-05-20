@@ -20,6 +20,13 @@ reference:
       - sensitivity_report
   - title: Perturbation grids
     contents:
+      - perturb_indicators
+      - leave_one_indicator_out
+      - random_indicator_removal
+      - combinatorial_indicator_deletion
+      - indicator_replacement
+      - noise_injection
+      - as_perturbation_grid
       - stress_specifications
       - stress_indicators
       - stress_weights
