@@ -13,7 +13,9 @@ backend_from_csem(estimator = NULL)
 A \code{stresspls_backend}.
 }
 \description{
-Create a backend skeleton for cSEM
+This is a skeleton adapter, not a tested built-in \code{cSEM} integration.
+Supply \code{estimator} to perform estimation and return canonical stressPLS
+backend output.
 }
 \examples{
 backend_from_csem()

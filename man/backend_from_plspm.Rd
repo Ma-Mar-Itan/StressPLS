@@ -13,7 +13,9 @@ backend_from_plspm(estimator = NULL)
 A \code{stresspls_backend}.
 }
 \description{
-Create a backend skeleton for plspm
+This is a skeleton adapter, not a tested built-in \code{plspm} integration.
+Supply \code{estimator} to perform estimation and return canonical stressPLS
+backend output.
 }
 \examples{
 backend_from_plspm()

@@ -17,7 +17,8 @@
 #' @export
 as_backend <- function(backend, name = NULL, description = NULL) {
   if (inherits(backend, "stresspls_backend")) {
-    return(validate_backend(backend))
+    validate_backend(backend)
+    return(backend)
   }
   if (!is.function(backend)) {
     stop("`backend` must be a function or stresspls_backend object.",
@@ -392,7 +393,7 @@ standardize_table <- function(x, template) {
   x <- as.data.frame(x, stringsAsFactors = FALSE)
   for (name in names(template)) {
     if (!name %in% names(x)) {
-      x[[name]] <- template[[name]][NA_integer_]
+      x[[name]] <- missing_like(template[[name]], nrow(x))
     }
   }
   x <- x[, names(template), drop = FALSE]
@@ -406,6 +407,16 @@ standardize_table <- function(x, template) {
     }
   }
   x
+}
+
+missing_like <- function(x, n) {
+  if (is.numeric(x)) {
+    rep(NA_real_, n)
+  } else if (is.logical(x)) {
+    rep(NA, n)
+  } else {
+    rep(NA_character_, n)
+  }
 }
 
 extract_fit_table <- function(x, table) {

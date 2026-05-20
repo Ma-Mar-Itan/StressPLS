@@ -1,5 +1,9 @@
 #' Create a backend skeleton for seminr
 #'
+#' This is a skeleton adapter, not a tested built-in `seminr` integration.
+#' Supply `estimator` to perform estimation and return canonical stressPLS
+#' backend output.
+#'
 #' @param estimator Optional function using `seminr`.
 #'
 #' @return A `stresspls_backend`.
@@ -11,6 +15,10 @@ backend_from_seminr <- function(estimator = NULL) {
 }
 
 #' Create a backend skeleton for cSEM
+#'
+#' This is a skeleton adapter, not a tested built-in `cSEM` integration.
+#' Supply `estimator` to perform estimation and return canonical stressPLS
+#' backend output.
 #'
 #' @param estimator Optional function using `cSEM`.
 #'
@@ -24,6 +32,10 @@ backend_from_csem <- function(estimator = NULL) {
 
 #' Create a backend skeleton for plspm
 #'
+#' This is a skeleton adapter, not a tested built-in `plspm` integration.
+#' Supply `estimator` to perform estimation and return canonical stressPLS
+#' backend output.
+#'
 #' @param estimator Optional function using `plspm`.
 #'
 #' @return A `stresspls_backend`.
@@ -35,6 +47,10 @@ backend_from_plspm <- function(estimator = NULL) {
 }
 
 #' Create a backend skeleton for SmartPLS exports
+#'
+#' This is a skeleton adapter, not a tested built-in SmartPLS export parser.
+#' Supply `parser` to read export artifacts and return canonical stressPLS
+#' backend output.
 #'
 #' @param parser Optional function that reads SmartPLS export artifacts and
 #'   returns canonical backend output.

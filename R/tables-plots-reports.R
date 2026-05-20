@@ -173,6 +173,11 @@ plot_indicator_stability_heatmap <- function(x) {
 plot_path_distribution <- function(x) {
   paths <- if (inherits(x, "stresspls_fit_grid")) extract_paths(x) else x
   if (!is.data.frame(paths)) stop("`x` must provide path estimates.", call. = FALSE)
+  required <- c("from", "to", "estimate")
+  if (!all(required %in% names(paths))) {
+    stop("Path estimates must contain `from`, `to`, and `estimate` columns.",
+         call. = FALSE)
+  }
   paths$path <- paste(paths$from, paths$to, sep = " -> ")
   ggplot2::ggplot(paths, ggplot2::aes(x = estimate)) +
     ggplot2::geom_histogram(bins = 20) +
@@ -208,6 +213,15 @@ plot_vif_stress_curve <- function(x) {
 #' @export
 plot_prediction_comparison <- function(x) {
   metrics <- if (inherits(x, "stresspls_prediction_validation")) x$metrics else x
+  if (!is.data.frame(metrics) || !all(c("outcome", "metric", "value") %in%
+                                      names(metrics))) {
+    if (inherits(x, "stresspls_prediction_validation")) {
+      metrics <- canonical_prediction()
+    } else {
+      stop("`x` must contain `outcome`, `metric`, and `value` columns.",
+           call. = FALSE)
+    }
+  }
   ggplot2::ggplot(metrics, ggplot2::aes(x = metric, y = value)) +
     ggplot2::geom_boxplot() +
     ggplot2::facet_wrap(stats::as.formula("~ outcome"), scales = "free_y") +

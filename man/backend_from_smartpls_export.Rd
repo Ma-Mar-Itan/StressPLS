@@ -14,7 +14,9 @@ returns canonical backend output.}
 A \code{stresspls_backend}.
 }
 \description{
-Create a backend skeleton for SmartPLS exports
+This is a skeleton adapter, not a tested built-in SmartPLS export parser.
+Supply \code{parser} to read export artifacts and return canonical stressPLS
+backend output.
 }
 \examples{
 backend_from_smartpls_export()

@@ -11,6 +11,15 @@ validated model and perturbation objects, runs user-supplied estimator
 backends, and standardizes the resulting diagnostics. The examples below
 use a deterministic toy backend that is only for demonstrating the API.
 
+Terminology is deliberately conservative: robustness means conclusions
+remain substantively unchanged under plausible perturbations; stability
+means weights, paths, signs, and predictive metrics remain consistent
+across perturbation or resampling; resilience means the substantive
+interpretation withstands multiple stressors; fragility means
+conclusions change materially under small or plausible changes; and
+predictive validity means satisfactory out-of-sample or cross-validation
+performance supplied or enabled by the backend.
+
 ## Installation
 
 ``` r
@@ -363,6 +372,6 @@ objects.
 `stressPLS` is an experimental package. The safest supported route is a
 custom backend supplied by the user. Adapter functions for `seminr`,
 `cSEM`, `plspm`, and SmartPLS exports are documented skeletons unless
-users provide package- specific estimator or parser functions.
-Simulation and stress diagnostics are intended for robustness analysis,
-not as substitutes for a validated PLS-SEM estimator.
+users provide package-specific estimator or parser functions. Simulation
+and stress diagnostics are intended for robustness analysis, not as
+substitutes for a validated PLS-SEM estimator.

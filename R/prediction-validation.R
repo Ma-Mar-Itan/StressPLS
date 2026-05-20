@@ -107,13 +107,17 @@ repeated_cv_predict <- function(model, data, backend, outcomes, v = 5,
 #' @export
 compare_prediction_metrics <- function(x) {
   metrics <- if (inherits(x, "stresspls_prediction_validation")) x$metrics else x
+  if (inherits(x, "stresspls_prediction_validation") &&
+      (!is.data.frame(metrics) || nrow(metrics) == 0L)) {
+    return(empty_prediction_summary())
+  }
   if (!is.data.frame(metrics) || !all(c("outcome", "metric", "value") %in%
                                       names(metrics))) {
     stop("`x` must contain `outcome`, `metric`, and `value` columns.",
          call. = FALSE)
   }
   if (nrow(metrics) == 0L) {
-    return(data.frame())
+    return(empty_prediction_summary())
   }
   split_key <- interaction(metrics$outcome, metrics$metric, drop = TRUE)
   out <- lapply(split(metrics, split_key), function(rows) {
@@ -127,6 +131,17 @@ compare_prediction_metrics <- function(x) {
     )
   })
   rbind_list(out)
+}
+
+empty_prediction_summary <- function() {
+  data.frame(
+    outcome = character(),
+    metric = character(),
+    mean = numeric(),
+    sd = numeric(),
+    n = integer(),
+    stringsAsFactors = FALSE
+  )
 }
 
 make_cv_folds <- function(n, v, repeats, seed) {

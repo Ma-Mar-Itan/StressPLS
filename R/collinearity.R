@@ -155,10 +155,21 @@ summarise_collinearity_stress <- function(x) {
     class = "stresspls_fit_grid"
   )
   vifs <- extract_vifs(grid)
-  max_vif <- tapply(vifs$vif, vifs$scenario_id, max, na.rm = TRUE)
+  max_vif <- if (nrow(vifs) > 0L &&
+                 all(c("vif", "scenario_id") %in% names(vifs))) {
+    tapply(vifs$vif, vifs$scenario_id, max, na.rm = TRUE)
+  } else {
+    stats::setNames(numeric(), character())
+  }
   path_stability <- calc_path_stability(grid)
-  path_change <- tapply(abs(path_stability$difference),
-                        path_stability$scenario_id, mean, na.rm = TRUE)
+  path_change <- if (nrow(path_stability) > 0L &&
+                     all(c("difference", "scenario_id") %in%
+                         names(path_stability))) {
+    tapply(abs(path_stability$difference),
+           path_stability$scenario_id, mean, na.rm = TRUE)
+  } else {
+    stats::setNames(numeric(), character())
+  }
   out <- x$index
   out$max_vif <- unname(max_vif[out$scenario_id])
   out$mean_path_abs_change <- unname(path_change[out$scenario_id])

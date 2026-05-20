@@ -30,9 +30,24 @@ The framework separates five responsibilities:
 4. Robustness scoring.
 5. Reporting and visualization.
 
-This initial scaffold implements the package structure, input validation,
-perturbation grids, S3 result classes, summaries, plotting, and reporting
-placeholders. It does not implement the full methodology or a PLS-SEM backend.
+This experimental release implements model declarations, perturbation grids,
+backend standardization, diagnostic metrics, resampling and stress diagnostics,
+summary tables, plotting, reports, and simulation utilities. It does not include
+a validated built-in PLS-SEM estimator; real empirical use requires a
+scientifically appropriate user-supplied backend or a future tested adapter.
+
+The terminology is used consistently throughout the package:
+
+- Robustness means conclusions remain substantively unchanged under plausible
+  perturbations.
+- Stability means weights, paths, signs, and predictive metrics remain
+  consistent across resampling or perturbation.
+- Resilience means the substantive interpretation withstands multiple
+  stressors.
+- Fragility means conclusions change materially under small or plausible
+  changes.
+- Predictive validity means satisfactory out-of-sample or cross-validation
+  performance supplied or enabled by the backend.
 
 ## Model specification objects
 
@@ -89,8 +104,9 @@ Each scenario records the method, affected construct, removed indicators,
 replacement metadata, noise recipes, validity flags, and a stable scenario ID.
 When data are supplied to `noise_injection()`, transformed scenario data can be
 materialized; otherwise the grid stores a reproducible noise recipe. These
-perturbation grids are designed to be consumed by later estimation backends,
-which will run each scenario and return robustness metrics.
+perturbation grids are designed to be consumed by estimation backends, which run
+each scenario and return standardized estimates for downstream robustness
+metrics.
 
 ## Estimator backend abstraction
 
@@ -101,7 +117,9 @@ tables for paths, weights, VIFs, R-squared values, prediction metrics,
 diagnostics, and metadata.
 
 The package includes optional adapter skeletons for common workflows, but custom
-backends are currently the safest supported route.
+backends are currently the safest supported route. Skeleton adapters do not
+imply tested support for those estimator packages until an estimator or parser
+is supplied and validated by the user.
 
 ## Robustness metrics
 
