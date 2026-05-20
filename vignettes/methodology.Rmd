@@ -9,6 +9,7 @@ vignette: >
 
 ```{r, include = FALSE}
 knitr::opts_chunk$set(collapse = TRUE, comment = "#>")
+library(stressPLS)
 ```
 
 ## Overview
@@ -27,6 +28,40 @@ The framework separates five responsibilities:
 This initial scaffold implements the package structure, input validation,
 perturbation grids, S3 result classes, summaries, plotting, and reporting
 placeholders. It does not implement the full methodology or a PLS-SEM backend.
+
+## Model specification objects
+
+Model specifications are explicit declaration objects. Lower-order constructs
+are created with `specify_construct()`, higher-order constructs are created
+with `specify_hoc()`, structural paths are created with `specify_paths()`, and
+the pieces are combined with `specify_model()`.
+
+```{r}
+image <- specify_construct("Image", c("img1", "img2", "img3"))
+quality <- specify_construct("Quality", c("qual1", "qual2", "qual3"))
+satisfaction <- specify_construct(
+  "Satisfaction",
+  c("sat1", "sat2", "sat3"),
+  mode = "reflective"
+)
+
+brand_equity <- specify_hoc("BrandEquity", c("Image", "Quality"))
+paths <- specify_paths(from = "BrandEquity", to = "Satisfaction")
+
+model <- specify_model(
+  constructs = list(image, quality, satisfaction),
+  hocs = list(brand_equity),
+  paths = paths
+)
+
+validate_model_spec(model)
+construct_names(model)
+required_indicators(model)
+```
+
+These objects do not estimate PLS-SEM models. They validate and preserve model
+intent so later estimation backends can consume `stresspls_model_spec` objects
+without needing to infer construct definitions from ad hoc lists.
 
 ## Perturbation families
 

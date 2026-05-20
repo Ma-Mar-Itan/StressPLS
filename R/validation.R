@@ -9,6 +9,10 @@ validate_data <- function(data) {
 }
 
 validate_model <- function(model) {
+  if (inherits(model, "stresspls_model_spec")) {
+    validate_model_spec(model)
+    return(invisible(model))
+  }
   if (!is.list(model)) {
     stop("`model` must be a list describing the PLS-SEM specification.",
          call. = FALSE)

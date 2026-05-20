@@ -22,6 +22,9 @@
 stress_pls <- function(data, model, grid = NULL, backend = NULL, seed = NULL) {
   validate_data(data)
   validate_model(model)
+  if (inherits(model, "stresspls_model_spec")) {
+    validate_model_spec(model, data = data)
+  }
   validate_seed(seed)
 
   if (is.null(grid)) {

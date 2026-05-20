@@ -26,7 +26,11 @@ stress_indicators <- function(data, model, indicators = NULL, swaps = NULL,
   validate_seed(seed)
 
   if (is.null(indicators)) {
-    indicators <- model$indicators
+    indicators <- if (inherits(model, "stresspls_model_spec")) {
+      required_indicators(model)
+    } else {
+      model$indicators
+    }
   }
   indicators <- as_non_empty_character(indicators, "indicators")
 

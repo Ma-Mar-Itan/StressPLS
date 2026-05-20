@@ -51,6 +51,45 @@ summarise_stress(result)
 rank_fragility(result)
 ```
 
+## Model specification example
+
+```{r}
+image <- specify_construct(
+  name = "Image",
+  indicators = c("img1", "img2", "img3")
+)
+
+quality <- specify_construct(
+  name = "Quality",
+  indicators = c("qual1", "qual2", "qual3")
+)
+
+satisfaction <- specify_construct(
+  name = "Satisfaction",
+  indicators = c("sat1", "sat2", "sat3"),
+  mode = "reflective"
+)
+
+brand_equity <- specify_hoc(
+  name = "BrandEquity",
+  dimensions = c("Image", "Quality")
+)
+
+paths <- specify_paths(
+  from = "BrandEquity",
+  to = "Satisfaction"
+)
+
+model_spec <- specify_model(
+  constructs = list(image, quality, satisfaction),
+  hocs = list(brand_equity),
+  paths = paths
+)
+
+construct_names(model_spec)
+required_indicators(model_spec)
+```
+
 ## Concept
 
 Stress testing asks whether substantive conclusions survive reasonable changes
@@ -58,3 +97,4 @@ to indicators, higher-order construct specifications, weights, bootstrap
 settings, and related assumptions. `stressPLS` will expose those changes as
 explicit scenario grids, run them through a modular backend, and report
 stability and fragility without fabricating estimates when a backend is absent.
+Future estimation backends will consume `stresspls_model_spec` objects.

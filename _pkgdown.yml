@@ -2,6 +2,15 @@ url: https://stresspls.github.io/stressPLS/
 template:
   bootstrap: 5
 reference:
+  - title: Model specification
+    contents:
+      - specify_construct
+      - specify_hoc
+      - specify_paths
+      - specify_model
+      - validate_model_spec
+      - required_indicators
+      - construct_names
   - title: Stress-test workflow
     contents:
       - stress_pls
